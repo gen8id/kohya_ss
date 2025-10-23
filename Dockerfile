@@ -1,3 +1,6 @@
+
+# pytorch/pytorch:2.3.0-cuda12.1-cudnn8-devel
+
 # syntax=docker/dockerfile:1
 ARG UID=1000
 ARG VERSION=EDGE
