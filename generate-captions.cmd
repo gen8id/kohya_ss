@@ -1,0 +1,1 @@
+python generate-captions.py --dirs ./dataset/mainchar/2_karina --char "karina" --device 3
