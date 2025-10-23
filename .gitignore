@@ -1,3 +1,4 @@
+.idea
 # Python
 .venv
 venv
@@ -53,6 +54,8 @@ models
 data
 config.toml
 sd-scripts
+sd-scripts/
+sd-scripts/**
 venv
 venv*
 .python-version
