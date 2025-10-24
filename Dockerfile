@@ -21,10 +21,8 @@ RUN pip install --upgrade pip setuptools wheel \
 
 # 두 requirements.txt 모두 설치
 RUN pip install --no-cache-dir -r /app/sxdl_train_captioner/requirements.txt --use-pep517 \
- && if [ -f /app/sxdl_train_captioner/sd-scripts/requirements.txt ]; then \
-        pip install --no-cache-dir -r /app/sxdl_train_captioner/sd-scripts/requirements.txt --use-pep517; \
-    fi
-
+  && pip install --no-cache-dir -r /app/sxdl_train_captioner/sd-scripts/requirements.txt --use-pep517
+ 
 # 모델 파일 복사 (미리 포함시킬 가중치)
 #COPY ./models /app/sxdl_train_captioner/models
 
