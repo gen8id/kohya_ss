@@ -16,8 +16,8 @@ ENV PIP_NO_CACHE_DIR=1
 COPY . /app/sxdl_train_captioner
 
 # pip 업그레이드 및 공통 유틸 설치
-RUN pip install --upgrade pip setuptools wheel \
- && pip install --no-cache-dir accelerate bitsandbytes xformers
+RUN pip install --upgrade pip setuptools wheel
+# && pip install --no-cache-dir accelerate bitsandbytes xformers
 
 # 두 requirements.txt 모두 설치
 WORKDIR /app/sxdl_train_captioner
@@ -25,10 +25,6 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 # 모델 파일 복사 (미리 포함시킬 가중치)
 #COPY ./models /app/sxdl_train_captioner/models
-
-# (선택) BLIP/WD14 등 관련 종속 추가
-RUN pip install transformers==4.44.2 accelerate==0.33.0
-#    torch torchvision torchaudio
 
 # 모델 디렉토리 확인 로그
 RUN echo "✅ Copied models:" && ls -R /app/kohya_ss/models || echo "⚠️ No models found"
