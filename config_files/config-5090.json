@@ -3,10 +3,10 @@
     "shuffle_caption": true,
     "caption_extension": ".txt",
     "keep_tokens": 1,
-    "seed": 42
+    "seed": 47
   },
   "model": {
-    "pretrained_model_name_or_path": "stabilityai/stable-diffusion-3.5",
+    "pretrained_model_name_or_path": "stabilityai/stable-diffusion-xl-base-1.0",
     "vae": "stabilityai/sd-vae-ft-mse"
   },
   "training": {

@@ -1,307 +1,250 @@
-# Kohya's GUI
+NVIDIA Studio Driver(SDR) : Windows 10/11 → 531.79 / 536.67 등 :
+아래서 기종 선택하고 Studio Driver 선택하고 검색 버튼
+https://www.nvidia.com/ko-kr/geforce/drivers/
+제일 낮은 버전이 아마 괜찮을 듯 함.
 
-[![GitHub stars](https://img.shields.io/github/stars/bmaltais/kohya_ss?style=social)](https://github.com/bmaltais/kohya_ss/stargazers)
-[![GitHub forks](https://img.shields.io/github/forks/bmaltais/kohya_ss?style=social)](https://github.com/bmaltais/kohya_ss/network/members)
-[![License](https://img.shields.io/github/license/bmaltais/kohya_ss)](LICENSE.md)
-[![GitHub issues](https://img.shields.io/github/issues/bmaltais/kohya_ss)](https://github.com/bmaltais/kohya_ss/issues)
+CUDA 12.3 : https://developer.nvidia.com/cuda-12-3-0-download-archive
+cuDNN v9.5.0 : https://developer.nvidia.com/cudnn-9-5-0-download-archive
 
-This is a GUI and CLI for training diffusion models.
-
-This project provides a user-friendly Gradio-based Graphical User Interface (GUI) for [Kohya's Stable Diffusion training scripts](https://github.com/kohya-ss/sd-scripts). 
-Stable Diffusion training empowers users to customize image generation models by fine-tuning existing models, creating unique artistic styles, 
-and training specialized models like LoRA (Low-Rank Adaptation).
-
-Key features of this GUI include:
-*   Easy-to-use interface for setting a wide range of training parameters.
-*   Automatic generation of the command-line interface (CLI) commands required to run the training scripts.
-*   Support for various training methods, including LoRA, Dreambooth, fine-tuning, and SDXL training.
-
-Support for Linux and macOS is also available. While Linux support is actively maintained through community contributions, macOS compatibility may vary.
-
-## Table of Contents
-
-- [Installation Options](#installation-options)
-  - [Local Installation Overview](#local-installation-overview)
-    - [`uv` vs `pip` – What's the Difference?](#uv-vs-pip--whats-the-difference)
-  - [Cloud Installation Overview](#cloud-installation-overview)
-    - [Colab](#-colab)
-    - [Runpod, Novita, Docker](#runpod-novita-docker)
-- [Custom Path Defaults](#custom-path-defaults)
-    - [LoRA](#lora)
-  - [Sample image generation during training](#sample-image-generation-during-training)
-  - [Troubleshooting](#troubleshooting)
-  - [Page File Limit](#page-file-limit)
-  - [No module called tkinter](#no-module-called-tkinter)
-  - [LORA Training on TESLA V100 - GPU Utilization Issue](#lora-training-on-tesla-v100---gpu-utilization-issue)
-- [SDXL training](#sdxl-training)
-- [Masked loss](#masked-loss)
-- [Guides](#guides)
-  - [Using Accelerate Lora Tab to Select GPU ID](#using-accelerate-lora-tab-to-select-gpu-id)
-    - [Starting Accelerate in GUI](#starting-accelerate-in-gui)
-    - [Running Multiple Instances (linux)](#running-multiple-instances-linux)
-    - [Monitoring Processes](#monitoring-processes)
-- [Interesting Forks](#interesting-forks)
-- [Contributing](#contributing)
-- [License](#license)
-- [Change History](#change-history)
-  - [v25.0.3](#v2503)
-  - [v25.0.2](#v2502)
-  - [v25.0.1](#v2501)
-  - [v25.0.0](#v2500)
+cuDNN (예: C:\Program Files\NVIDIA\CUDNN\v9.5 )폴더 안에는 bin, include, lib 폴더가 있습니다.
+각 폴더의 내용을 CUDA Toolkit이 설치된 경로 내의 해당 폴더에 복사합니다.
+예시: cuDNN/bin을 C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v11.2\bin으로 복사합니다. 
 
 
-## Installation Options
+4. SDXL 모델 다운로드
+SDXL 기본 해상도는 1024x1024 X이며, 다음 모델이 필요합니다:
+필수 모델:
+SDXL Base 모델 (.safetensors 또는 .ckpt)
+Hugging Face 또는
+CivitAI에서 다운로드
 
-You can run `kohya_ss` either **locally on your machine** or via **cloud-based solutions** like Colab or Runpod.
-
-- If you have a GPU-equipped PC and want full control: install it locally using `uv` or `pip`.
-- If your system doesn’t meet requirements or you prefer a browser-based setup: use Colab or a paid GPU provider like Runpod or Novita.
-- If you are a developer or DevOps user, Docker is also supported.
-
----
-
-### Local Installation Overview
-
-You can install `kohya_ss` locally using either the `uv` or `pip` method. Choose one depending on your platform and preferences:
-
-| Platform     | Recommended Method | Instructions                                |
-|--------------|----------------|---------------------------------------------|
-| Linux        | `uv`           | [uv_linux.md](./docs/Installation/uv_linux.md) |
-| Linux or Mac | `pip`              | [pip_linux.md](./docs/Installation/pip_linux.md)               |
-| Windows      | `uv`           | [uv_windows.md](./docs/Installation/uv_windows.md)             |
-| Windows      | `pip`          | [pip_windows.md](./docs/Installation/pip_windows.md)           |
-
-#### `uv` vs `pip` – What's the Difference?
-
-- `uv` is faster and isolates dependencies more cleanly, ideal if you want minimal setup hassle.
-- `pip` is more traditional, easier to debug if issues arise, and works better with some IDEs or Python tooling.
-- If unsure: try `uv`. If it doesn't work for you, fall back to `pip`.
-
-### Cloud Installation Overview
-
-#### 🦒 Colab
-
-For browser-based training without local setup, use this Colab notebook:  
-<https://github.com/camenduru/kohya_ss-colab>
-
-- No installation required
-- Free to use (GPU availability may vary)
-- Maintained by **camenduru**, not the original author
-
-| Colab                                                                                                                                                                          | Info               |
-| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------ |
-| [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/camenduru/kohya_ss-colab/blob/main/kohya_ss_colab.ipynb) | kohya_ss_gui_colab |
-
-> 💡 If you encounter issues, please report them on camenduru’s repo.
-
-**Special thanks**  
-I would like to express my gratitude to camenduru for their valuable contribution.
-
-#### Runpod, Novita, Docker
-
-These options are for users running training on hosted GPU infrastructure or containers.
-
-- **[Runpod setup](docs/runpod_setup.md)** – Ready-made GPU background training via templates.
-- **[Novita setup](docs/novita_setup.md)** – Similar to Runpod, but integrated into the Novita UI.
-- **[Docker setup](docs/docker.md)** – For developers/sysadmins using containerized environments.
+권장: VAE 모델 (선택사항이지만 권장)
+https://huggingface.co/madebyollin/sdxl-vae-fp16-fix
+SDXL fp16 VAE GitHub: madebyollin/sdxl-vae-fp16-fix
+모델을 원하는 폴더에 저장하세요 (예: C:/models/sdxl/)
 
 
-## Custom Path Defaults with `config.toml`
 
-The GUI supports a configuration file named `config.toml` that allows you to set default paths for many of the input fields. This is useful for avoiding repetitive manual selection of directories every time you start the GUI.
 
-**Purpose of `config.toml`:**
+이 저장소에는 Stable Diffusion용 훈련, 생성 및 유틸리티 스크립트가 포함되어 있습니다.
 
-*   Pre-fill default directory paths for pretrained models, datasets, output folders, LoRA models, etc.
-*   Streamline your workflow by having the GUI remember your preferred locations.
+변경 내역은 페이지 하단으로 이동했습니다.
 
-**How to Use and Customize:**
+최신 업데이트: 2025-03-21 (버전 0.9.1)
 
-1.  **Create your configuration file:**
-    *   In the root directory of the `kohya_ss` repository, you'll find a file named `config example.toml`.
-    *   Copy this file and rename the copy to `config.toml`. This `config.toml` file will be automatically loaded when the GUI starts.
-2.  **Edit `config.toml`:**
-    *   Open `config.toml` with a text editor.
-    *   The file uses TOML (Tom's Obvious, Minimal Language) format, which consists of `key = "value"` pairs.
-    *   Modify the paths for the keys according to your local directory structure.
-    *   **Important:**
-        *   Use absolute paths (e.g., `C:/Users/YourName/StableDiffusion/Models` or `/home/yourname/sd-models`).
-        *   Alternatively, you can use paths relative to the `kohya_ss` root directory.
-        *   Ensure you use forward slashes (`/`) for paths, even on Windows, as this is generally more compatible with TOML and Python.
-        *   Make sure the specified directories exist on your system.
+일본어판 README는 여기
 
-**Structure of `config.toml`:**
+개발 버전은 dev 브랜치에 있습니다. 최신 변경 사항은 dev 브랜치를 확인해 주세요.
 
-The `config.toml` file can have several sections, typically corresponding to different training modes or general settings. Common keys you might want to set include:
+FLUX.1 및 SD3/SD3.5 지원은 sd3 브랜치에서 이루어집니다. 해당 모델을 훈련하려면 sd3 브랜치를 사용해 주세요.
 
-*   `model_dir`: Default directory for loading base Stable Diffusion models.
-*   `lora_model_dir`: Default directory for saving and loading LoRA models.
-*   `output_dir`: Default base directory for training outputs (images, logs, model checkpoints).
-*   `dataset_dir`: A general default if you store all your datasets in one place.
-*   Specific input paths for different training tabs like Dreambooth, Finetune, LoRA, etc. (e.g., `db_model_dir`, `ft_source_model_name_or_path`).
+더 쉬운 사용법(GUI 및 PowerShell 스크립트 등)을 원하시면 bmaltais가 관리하는 저장소를 방문해 주세요. @bmaltais 님께 감사드립니다!
 
-**Example Configurations:**
+이 저장소에는 다음 스크립트가 포함되어 있습니다:
 
-Here's an example snippet of what your `config.toml` might look like:
+- DreamBooth 훈련 (U-Net 및 텍스트 인코더 포함)
+- 미세 조정 (네이티브 훈련) (U-Net 및 텍스트 인코더 포함)
+- LoRA 훈련
+- 텍스트 역전 훈련
+- 이미지 생성
+- 모델 변환 (1.x 및 2.x, Stable Diffusion ckpt/safetensors 및 Diffusers 지원)
 
-```toml
-# General settings
-model_dir = "C:/ai_stuff/stable-diffusion-webui/models/Stable-diffusion"
-lora_model_dir = "C:/ai_stuff/stable-diffusion-webui/models/Lora"
-vae_dir = "C:/ai_stuff/stable-diffusion-webui/models/VAE"
-output_dir = "C:/ai_stuff/kohya_ss_outputs"
-logging_dir = "C:/ai_stuff/kohya_ss_outputs/logs"
+### 후원사
 
-# Dreambooth specific paths
-db_model_dir = "C:/ai_stuff/stable-diffusion-webui/models/Stable-diffusion"
-db_reg_image_dir = "C:/ai_stuff/datasets/dreambooth_regularization_images"
-# Add other db_... paths as needed
+아래 기업들의 아낌없는 후원에 깊이 감사드립니다:
 
-# Finetune specific paths
-ft_model_dir = "C:/ai_stuff/stable-diffusion-webui/models/Stable-diffusion"
-# Add other ft_... paths as needed
+<a href="https://aihub.co.jp/top-en">
+  <img src="sd-scripts/images/logo_aihub.png" alt="AiHUB Inc." title="AiHUB Inc." height="100px">
+</a>
 
-# LoRA / LoCon specific paths
-lc_model_dir = "C:/ai_stuff/stable-diffusion-webui/models/Stable-diffusion" # Base model for LoRA training
-lc_output_dir = "C:/ai_stuff/kohya_ss_outputs/lora"
-lc_dataset_dir = "C:/ai_stuff/datasets/my_lora_project"
-# Add other lc_... paths as needed
+### 프로젝트 후원
 
-# You can find a comprehensive list of all available keys in the `config example.toml` file.
-# Refer to it to customize paths for all supported options in the GUI.
+이 프로젝트가 도움이 되셨다면 [GitHub 후원](https://github.com/sponsors/kohya-ss/)을 통해 개발을 후원해 주시기 바랍니다. 여러분의 후원에 깊이 감사드립니다!
+
+
+## requirements.txt 파일 안내
+
+이 파일에는 PyTorch 요구 사항이 포함되어 있지 않습니다. PyTorch 버전은 환경에 따라 달라지므로 별도로 관리됩니다. 먼저 환경에 맞는 PyTorch를 설치해 주세요. 설치 방법은 아래를 참고하세요.
+
+스크립트는 PyTorch 2.1.2로 테스트되었습니다. PyTorch 2.2 이상도 작동합니다. 적절한 버전의 PyTorch와 xformers를 설치해 주세요.
+
+## 사용법 문서 링크
+
+대부분의 문서는 일본어로 작성되었습니다.
+
+[darkstorm2150님의 영어 번역본은 여기](https://github.com/darkstorm2150/sd-scripts#links-to-usage-documentation)에서 확인하실 수 있습니다. darkstorm2150님께 감사드립니다!
+
+* [훈련 가이드 - 공통](sd-scripts/docs/train_README-ja.md) : 데이터 준비, 옵션 등...
+  * [중국어 버전](sd-scripts/docs/train_README-zh.md)
+* [SDXL 훈련](sd-scripts/docs/train_SDXL-en.md) (영어 버전)
+* [데이터셋 구성](sd-scripts/docs/config_README-ja.md)
+  * [영어 버전](sd-scripts/docs/config_README-en.md)
+* [DreamBooth 훈련 가이드](sd-scripts/docs/train_db_README-ja.md)
+* [단계별 미세 조정 가이드](sd-scripts/docs/fine_tune_README_ja.md):
+* [LoRA 훈련](sd-scripts/docs/train_network_README-ja.md)
+* [텍스트 역전 훈련](sd-scripts/docs/train_ti_README-ja.md)
+* [이미지 생성](sd-scripts/docs/gen_img_README-ja.md)
+* note.com [모델 변환](https://note.com/kohya_ss/n/n374f316fe4ad)
+
+## Windows Required Dependencies
+
+## Windows 필수 종속성
+
+Python 3.10.6 및 Git:
+
+- Python 3.10.6: https://www.python.org/ftp/python/3.10.6/python-3.10.6-amd64.exe
+- git: https://git-scm.com/download/win
+
+Python 3.10.x, 3.11.x, 3.12.x도 작동하지만 테스트되지 않았습니다.
+
+venv가 작동하도록 PowerShell에 제한 없는 스크립트 실행 권한 부여:
+
+- 관리자 권한 PowerShell 창 열기
+- `Set-ExecutionPolicy Unrestricted` 입력 후 A 선택
+- 관리자 권한 PowerShell 창 닫기
+
+## Windows 설치
+
+일반 PowerShell 터미널을 열고 다음 명령어를 입력하세요:
+
+```powershell
+git clone https://github.com/kohya-ss/sd-scripts.git
+cd sd-scripts
+
+python -m venv venv
+.\venv\Scripts\activate
+
+pip install torch==2.1.2 torchvision==0.16.2 --index-url https://download.pytorch.org/whl/cu118
+pip install --upgrade -r requirements.txt
+pip install xformers==0.0.23.post1 --index-url https://download.pytorch.org/whl/cu118
+
+accelerate config
 ```
 
-**Using a Custom Config File Path:**
+`python -m venv` 명령어 실행 시 `python`만 표시된다면, `python`을 `py`로 변경하십시오.
 
-If you prefer to name your configuration file differently or store it in another location, you can specify its path using the `--config` command-line argument when launching the GUI:
+참고: 현재 `bitsandbytes==0.44.0`, `prodigyopt==1.0` 및 `lion-pytorch==0.0.6`이 requirements.txt에 포함되어 있습니다. 다른 버전을 사용하려면 수동으로 설치하십시오.
 
-*   On Windows: `gui.bat --config D:/my_configs/kohya_settings.toml`
-*   On Linux/macOS: `./gui.sh --config /home/user/my_configs/kohya_settings.toml`
+이 설치는 CUDA 11.8용입니다. 다른 버전의 CUDA를 사용하는 경우, 해당 버전의 PyTorch와 xformers를 설치하십시오. 예를 들어, CUDA 12를 사용하는 경우 `pip install torch==2.1.2 torchvision==0.16.2 --index-url https://download.pytorch.org/whl/cu121` 및 `pip install xformers==0.0.23.post1 --index-url https://download.pytorch.org/whl/cu121`를 실행하십시오.
 
-By effectively using `config.toml`, you can significantly speed up your training setup process. Always refer to the `config example.toml` for the most up-to-date list of configurable paths.
+PyTorch 2.2 이상을 사용하는 경우 `torch==2.1.2`, `torchvision==0.16.2`, `xformers==0.0.23.post1`을 적절한 버전으로 변경하십시오.
 
-## LoRA
-
-To train a LoRA, you can currently use the `train_network.py` code. You can create a LoRA network by using the all-in-one GUI.
-
-Once you have created the LoRA network, you can generate images using auto1111 by installing [this extension](https://github.com/kohya-ss/sd-webui-additional-networks).
-
-For more detailed information on LoRA training options and advanced configurations, please refer to our LoRA documentation:
-- [LoRA Training Guide](docs/LoRA/top_level.md)
-- [LoRA Training Options](docs/LoRA/options.md)
-
-## Sample image generation during training
-
-A prompt file might look like this, for example:
+<!-- 
+cp .\bitsandbytes_windows\*.dll .\venv\Lib\site-packages\bitsandbytes\
+cp .\bitsandbytes_windows\cextension.py .\venv\Lib\site-packages\bitsandbytes\cextension.py
+cp .\bitsandbytes_windows\main.py .\venv\Lib\site-packages\bitsandbytes\cuda_setup\main.py
+-->
+accelerate config에 대한 답변:
 
 ```txt
-# prompt 1
-masterpiece, best quality, (1girl), in white shirts, upper body, looking at viewer, simple background --n low quality, worst quality, bad anatomy, bad composition, poor, low effort --w 768 --h 768 --d 1 --l 7.5 --s 28
-
-# prompt 2
-masterpiece, best quality, 1boy, in business suit, standing at street, looking back --n (low quality, worst quality), bad anatomy, bad composition, poor, low effort --w 576 --h 832 --d 2 --l 5.5 --s 40
+- This machine
+- No distributed training
+- NO
+- NO
+- NO
+- all
+- fp16
 ```
 
-Lines beginning with `#` are comments. You can specify options for the generated image with options like `--n` after the prompt. The following options can be used:
+bf16을 사용하려면 마지막 질문에 `bf16`이라고 답변해 주세요.
 
-- `--n`: Negative prompt up to the next option.
-- `--w`: Specifies the width of the generated image.
-- `--h`: Specifies the height of the generated image.
-- `--d`: Specifies the seed of the generated image.
-- `--l`: Specifies the CFG scale of the generated image.
-- `--s`: Specifies the number of steps in the generation.
+참고: 일부 사용자가 훈련 중 ``ValueError: fp16 혼합 정밀도는 GPU가 필요합니다`` 오류가 발생한다고 보고했습니다. 이 경우, 여섯 번째 질문에 `0`을 입력하세요:
+``이 머신에서 훈련에 사용할 GPU(ID 기준)를 쉼표로 구분된 목록으로 입력하세요? [all]:``
 
-The prompt weighting such as `( )` and `[ ]` is working.
+(ID `0`의 단일 GPU가 사용됩니다.)
 
-## Troubleshooting
+## 업그레이드
 
-If you encounter any issues, refer to the troubleshooting steps below.
+새 버전이 출시되면 다음 명령어로 저장소를 업그레이드할 수 있습니다:
 
-### Page File Limit
+```powershell
+cd sd-scripts
+git pull
+.\venv\Scripts\activate
+pip install --use-pep517 --upgrade -r requirements.txt
+```
 
-If you encounter an X error related to the page file, you may need to increase the page file size limit in Windows.
+명령어가 성공적으로 완료되면 새 버전을 사용할 준비가 된 것입니다.
 
-### No module called tkinter
+### PyTorch 업그레이드
 
-If you encounter an error indicating that the module `tkinter` is not found, try reinstalling Python 3.10 on your system.
+PyTorch를 업그레이드하려면 [Windows 설치](#windows-installation) 섹션의 `pip install` 명령어로 업그레이드할 수 있습니다. PyTorch를 업그레이드할 때 `xformers`도 함께 업그레이드해야 합니다.
 
-### LORA Training on TESLA V100 - GPU Utilization Issue
+## 크레딧
 
-See [Troubleshooting LORA Training on TESLA V100](docs/troubleshooting_tesla_v100.md) for details.
+LoRA 구현은 [cloneofsimo의 저장소](https://github.com/cloneofsimo/lora)를 기반으로 합니다. 훌륭한 작업에 감사드립니다!
 
-## SDXL training
+Conv2d 3x3에 대한 LoRA 확장은 cloneofsimo에 의해 처음 공개되었으며, 그 효과는 KohakuBlueleaf에 의해 [LoCon](https://github.com/KohakuBlueleaf/LoCon)에서 입증되었습니다. KohakuBlueleaf님께 진심으로 감사드립니다!
 
-For detailed guidance on SDXL training, please refer to the [official sd-scripts documentation](https://github.com/kohya-ss/sd-scripts/blob/main/README.md#sdxl-training) and relevant sections in our [LoRA Training Guide](docs/LoRA/top_level.md).
+## 라이선스
 
-## Masked loss
+대부분의 스크립트는 ASL 2.0 라이선스 하에 배포됩니다(Diffusers, cloneofsimo 및 LoCon의 코드 포함). 다만 프로젝트의 일부 구성 요소는 별도의 라이선스 조건이 적용됩니다:
 
-The masked loss is supported in each training script. To enable the masked loss, specify the `--masked_loss` option.
+[Memory Efficient Attention Pytorch](https://github.com/lucidrains/memory-efficient-attention-pytorch): MIT
 
-> [!WARNING]
-> The feature is not fully tested, so there may be bugs. If you find any issues, please open an Issue.
+[bitsandbytes](https://github.com/TimDettmers/bitsandbytes): MIT
 
-ControlNet dataset is used to specify the mask. The mask images should be the RGB images. The pixel value 255 in R channel is treated as the mask (the loss is calculated only for the pixels with the mask), and 0 is treated as the non-mask. The pixel values 0-255 are converted to 0-1 (i.e., the pixel value 128 is treated as the half weight of the loss). See details for the dataset specification in the [LLLite documentation](./docs/train_lllite_README.md#preparing-the-dataset).
+[BLIP](https://github.com/salesforce/BLIP): BSD-3-Clause
 
-## Guides
-
-The following are guides extracted from issues discussions
-
-### Using Accelerate Lora Tab to Select GPU ID
-
-#### Starting Accelerate in GUI
-
-- Open the kohya GUI on your desired port.
-- Open the `Accelerate launch` tab
-- Ensure the Multi-GPU checkbox is unchecked.
-- Set GPU IDs to the desired GPU (like 1).
-
-#### Running Multiple Instances (linux)
-
-- For tracking multiple processes, use separate kohya GUI instances on different ports (e.g., 7860, 7861).
-- Start instances using `nohup ./gui.sh --listen 0.0.0.0 --server_port <port> --headless > log.log 2>&1 &`.
-
-#### Monitoring Processes
-
-- Open each GUI in a separate browser tab.
-- For terminal access, use SSH and tools like `tmux` or `screen`.
-
-For more details, visit the [GitHub issue](https://github.com/bmaltais/kohya_ss/issues/2577).
-
-## Interesting Forks
-
-To finetune HunyuanDiT models or create LoRAs, visit this [fork](https://github.com/Tencent/HunyuanDiT/tree/main/kohya_ss-hydit)
-
-## Contributing
-
-Contributions are welcome! If you'd like to contribute to this project, please consider the following:
-- For bug reports or feature requests, please open an issue on the [GitHub Issues page](https://github.com/bmaltais/kohya_ss/issues).
-- If you'd like to submit code changes, please open a pull request. Ensure your changes are well-tested and follow the existing code style.
-- For security-related concerns, please refer to our `SECURITY.md` file.
-
-## License
-
-This project is licensed under the Apache License 2.0. See the [LICENSE.md](LICENSE.md) file for details.
 
 ## Change History
 
-### v25.0.3
+### Mar 21, 2025 /  2025-03-21 Version 0.9.1
 
-- Upgrade Gradio, diffusers and huggingface-hub to latest release to fix issue with ASGI.
-- Add a new method to setup and run the GUI. You will find two new script for both Windows (gui-uv.bat) and Linux (gui-uv.sh). With those scripts there is no need to run setup.bat or setup.sh anymore.
+- Fixed a bug where some of LoRA modules for CLIP Text Encoder were not trained. Thank you Nekotekina for PR [#1964](https://github.com/kohya-ss/sd-scripts/pull/1964)
+  - The LoRA modules for CLIP Text Encoder are now 264 modules, which is the same as before. Only 88 modules were trained in the previous version. 
 
-### v25.0.2
+### Jan 17, 2025 /  2025-01-17 Version 0.9.0
 
-- Force gradio to 5.14.0 or greater so it is updated.
+- __important__ The dependent libraries are updated. Please see [Upgrade](#upgrade) and update the libraries.
+  - bitsandbytes, transformers, accelerate and huggingface_hub are updated. 
+  - If you encounter any issues, please report them.
 
-### v25.0.1
+- The dev branch is merged into main. The documentation is delayed, and I apologize for that. I will gradually improve it.
+- The state just before the merge is released as Version 0.8.8, so please use it if you encounter any issues.
+- The following changes are included.
 
-- Fix issue with requirements version causing huggingface download issues
+#### 변경 사항
 
-### v25.0.0
+## 추가 정보
 
-- Major update: Introduced support for flux.1 and sd3, moving the GUI to align with more recent script functionalities.
-- Users preferring the pre-flux.1/sd3 version can check out tag `v24.1.7`.
-  ```shell
-  git checkout v24.1.7
-  ```
-- For details on new flux.1 and sd3 parameters, refer to the [sd-scripts README](https://github.com/kohya-ss/sd-scripts/blob/sd3/README.md).
+### LoRA 명명 규칙
+
+`train_network.py`에서 지원하는 LoRA의 명칭을 혼동을 피하기 위해 변경하였습니다. 관련 문서도 업데이트되었습니다. 본 저장소에서 사용하는 LoRA 유형의 명칭은 다음과 같습니다.
+
+1. __LoRA-LierLa__ : (LoRA for __Li__ n __e__ a __r__  __La__ yers)
+
+    LoRA for Linear layers and Conv2d layers with 1x1 kernel
+
+2. __LoRA-C3Lier__ : (LoRA for __C__ olutional layers with __3__ x3 Kernel and  __Li__ n __e__ a __r__ layers)
+
+    In addition to 1., LoRA for Conv2d layers with 3x3 kernel 
+    
+LoRA-LierLa는 `train_network.py`의 기본 LoRA 유형입니다(네트워크 인자 `conv_dim` 제외). 
+<!-- 
+LoRA-LierLa can be used with [our extension](https://github.com/kohya-ss/sd-webui-additional-networks) for AUTOMATIC1111's Web UI, or with the built-in LoRA feature of the Web UI.
+
+To use LoRA-C3Lier with Web UI, please use our extension. 
+-->
+
+### 훈련 중 샘플 이미지 생성
+  예를 들어 프롬프트 파일은 다음과 같을 수 있습니다
+
+```
+# prompt 1
+masterpiece, best quality, (1girl), in white shirts, upper body, looking at viewer, simple background --n low quality, worst quality, bad anatomy,bad composition, poor, low effort --w 768 --h 768 --d 1 --l 7.5 --s 28
+
+# prompt 2
+masterpiece, best quality, 1boy, in business suit, standing at street, looking back --n (low quality, worst quality), bad anatomy,bad composition, poor, low effort --w 576 --h 832 --d 2 --l 5.5 --s 40
+```
+
+  `#`로 시작하는 줄은 주석입니다. 프롬프트 뒤에 `--n`과 같은 옵션을 사용하여 생성된 이미지의 옵션을 지정할 수 있습니다. 다음을 사용할 수 있습니다.
+
+  * `--n` 다음 옵션까지 프롬프트를 음수로 지정합니다.
+  * `--w` 생성된 이미지의 너비를 지정합니다.
+  * `--h` 생성된 이미지의 높이를 지정합니다.
+  * `--d` 생성된 이미지의 시드(seed)를 지정합니다.
+  * `--l` 생성된 이미지의 CFG 스케일을 지정합니다.
+  * `--s` 생성 과정의 단계 수를 지정합니다.
+
+  `( )` 및 `[ ]`와 같은 프롬프트 가중치 기능이 작동합니다.
