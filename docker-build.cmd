@@ -1,3 +1,3 @@
-docker build --no-cache -t aicompanion/sxdl_train_captioner:0.0.5 .
+docker build --no-cache -t aicompanion/sdxl_train_captioner:0.0.5 .
 
-docker tag aicompanion/sxdl_train_captioner:0.0.5 aicompanion/sxdl_train_captioner:latest
+docker tag aicompanion/sdxl_train_captioner:0.0.5 aicompanion/sdxl_train_captioner:latest

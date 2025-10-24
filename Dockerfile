@@ -13,31 +13,29 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 ENV PIP_NO_CACHE_DIR=1
 
 # kohya_ss 전체 복사 (모델 포함)
-COPY . /app/sxdl_train_captioner
+COPY . /app/sdxl_train_captioner
 
 # pip 업그레이드 및 공통 유틸 설치
 RUN pip install --upgrade pip setuptools wheel
 # && pip install --no-cache-dir accelerate bitsandbytes xformers
 
 # 두 requirements.txt 모두 설치
-WORKDIR /app/sxdl_train_captioner
+WORKDIR /app/sdxl_train_captioner
 RUN pip install --no-cache-dir -r requirements.txt
 
 # 모델 파일 복사 (미리 포함시킬 가중치)
-#COPY ./models /app/sxdl_train_captioner/models
+#COPY ./models /app/sdxl_train_captioner/models
 
 # 모델 디렉토리 확인 로그
-RUN echo "✅ Copied models:" && ls -R /app/kohya_ss/models || echo "⚠️ No models found"
-
-WORKDIR /app/sxdl_train_captioner/sd-scripts
+RUN echo "✅ Copied models:" && ls -R /app/sdxl_train_captioner/models || echo "⚠️ No models found"
 
 # 엔트리포인트 복사 및 실행 권한
 #COPY entrypoint.sh /entrypoint.sh
 #RUN chmod +x /entrypoint.sh
 
 # 환경 변수 기본값
-ENV TRAIN_DIR=/app/sxdl_train_captioner/dataset
-ENV OUTPUT_DIR=/app/sxdl_train_captioner/output_model
+#ENV TRAIN_DIR=/app/sdxl_train_captioner/dataset
+#ENV OUTPUT_DIR=/app/sdxl_train_captioner/output_model
 
 # 볼륨 마운트 포인트
-VOLUME ["/app/sxdl_train_captioner/dataset", "/app/sxdl_train_captioner/output_model"]
+#VOLUME ["/app/sdxl_train_captioner/dataset", "/app/sdxl_train_captioner/output_model"]

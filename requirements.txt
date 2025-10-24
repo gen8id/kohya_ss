@@ -49,4 +49,4 @@ rich==13.7.0
 # Kohya_ss library
 xformers==0.0.26.post1 --index-url https://download.pytorch.org/whl/cu121
 triton==2.3.0
--e .
+

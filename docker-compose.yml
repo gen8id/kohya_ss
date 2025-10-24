@@ -1,10 +1,10 @@
 services:
-  sxdl_train_captioner:
+  sdxl_train_captioner:
     build:
       context: .
       dockerfile: Dockerfile
-    image: aicompanion/sxdl_train_captioner:latest
-    container_name: sxdl_train_captioner
+    image: aicompanion/sdxl_train_captioner:latest
+    container_name: sdxl_train_captioner
 
     # GPU 설정
     deploy:
@@ -20,14 +20,15 @@ services:
 
     # 볼륨 마운트 (호스트 ↔ 컨테이너)
     volumes:
-      - ./models:/app/sxdl_train_captioner/dataset
-      - ./outputs:/app/sxdl_train_captioner/output_model
+      - ./models:/app/sdxl_train_captioner/models
+      - ./dataset:/app/sdxl_train_captioner/dataset
+      - ./outputs:/app/sdxl_train_captioner/output_model
 
     environment:
       # GPU 선택 (필요 시 GPU ID 지정)
       - CUDA_VISIBLE_DEVICES=3
-      - HF_HOME=/app/sxdl_train_captioner/models
-      - HF_HUB_CACHE=/app/sxdl_train_captioner/models
+      - HF_HOME=/app/sdxl_train_captioner/models
+      - HF_HUB_CACHE=/app/sdxl_train_captioner/models
       - PYTHONUNBUFFERED=1
       - TZ=Asia/Seoul
       - OMP_NUM_THREADS=8
@@ -39,10 +40,7 @@ services:
     restart: unless-stopped
     shm_size: "16gb"
 
-    working_dir: /app/sxdl_train_captioner
+    working_dir: /app/sdxl_train_captioner/sd-scripts
 
     # GPU 자동 탐색, 기본 0번 GPU
-    command: ["python", "cap-watcher.py"]
-
-    # 여러개 GPU가 있는 경우 특정 GPU 번호를 지정하거나 gradio live를 사용하려는 경우
-    # command: ["python", "run-gradio.py", " --device 3", "--share"] 
+    command: ["python", "cap-watcher.py"] # "--device", "3", "--overwrite"
