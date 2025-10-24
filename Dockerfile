@@ -6,7 +6,7 @@ WORKDIR /app
 
 # 필수 패키지 설치
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    git wget curl vim \
+    git wget curl libgl1 libglib2.0-0 \
     && rm -rf /var/lib/apt/lists/*
 
 # Python 패키지 캐싱 방지

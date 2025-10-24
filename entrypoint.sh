@@ -5,5 +5,5 @@ if [ ! -f /app/models/sd_xl_base_1.0.safetensors ]; then
 fi
 
 # 캡셔너 실행
-cd sd-scripts
-python cap-watcher.py
+#cd sd-scripts
+#python cap-watcher.py
