@@ -41,6 +41,6 @@ services:
     shm_size: "16gb"
 
     working_dir: /app/sdxl_train_captioner/sd-scripts
-
+    command: >
     # GPU 자동 탐색, 기본 0번 GPU
     command: ["python", "cap-watcher.py"] # "--device", "3", "--overwrite"
