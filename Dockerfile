@@ -45,5 +45,3 @@ ENV OUTPUT_DIR=/workspace/output_model
 
 # 볼륨 마운트 포인트
 VOLUME ["/workspace/dataset", "/workspace/output_model"]
-
-ENTRYPOINT ["/entrypoint.sh"]

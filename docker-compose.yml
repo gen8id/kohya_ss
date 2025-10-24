@@ -1,0 +1,48 @@
+services:
+  sxdl_train_captioner:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: aicompanion/sxdl_train_captioner:latest
+    container_name: sxdl_train_captioner
+
+    # GPU 설정
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
+
+    ports:
+      - "7860:7860"
+
+    # 볼륨 마운트 (호스트 ↔ 컨테이너)
+    volumes:
+      - ./models:/workspace/sxdl_train_captioner/dataset
+      - ./outputs:/workspace/sxdl_train_captioner/output_model
+
+    environment:
+      # GPU 선택 (필요 시 GPU ID 지정)
+      # - CUDA_VISIBLE_DEVICES=1
+      - HF_HOME=/workspace/sxdl_train_captioner/models
+      - HF_HUB_CACHE=/workspace/sxdl_train_captioner/models
+      - PYTHONUNBUFFERED=1
+      - TZ=Asia/Seoul
+      - OMP_NUM_THREADS=8
+      - MKL_NUM_THREADS=8
+      - TMPDIR=/dev/shm
+
+    stdin_open: true
+    tty: true
+    restart: unless-stopped
+    shm_size: "16gb"
+
+    working_dir: /workspace/sxdl_train_captioner
+
+    # GPU 자동 탐색, 기본 0번 GPU
+#    command: ["python", "run-gradio.py"]
+
+    # 여러개 GPU가 있는 경우 특정 GPU 번호를 지정하거나 gradio live를 사용하려는 경우
+    # command: ["python", "run-gradio.py", " --device 3", "--share"] 
