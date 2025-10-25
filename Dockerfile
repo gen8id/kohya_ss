@@ -19,20 +19,17 @@ RUN pip install --upgrade pip setuptools wheel
 COPY . /app/sdxl_train_captioner
 # 두 requirements.txt 모두 설치
 WORKDIR /app/sdxl_train_captioner
-RUN mkdir /app/sdxl_train_captioner/logs
-RUN mkdir /app/sdxl_train_captioner/output_models
-RUN mkdir /app/sdxl_train_captioner/captioning/background
-RUN mkdir /app/sdxl_train_captioner/captioning/mainchar
-RUN mkdir /app/sdxl_train_captioner/training/background
-RUN mkdir /app/sdxl_train_captioner/training/mainchar
+RUN mkdir -p /app/sdxl_train_captioner/logs
+RUN mkdir -p /app/sdxl_train_captioner/output_models
+RUN mkdir -p /app/sdxl_train_captioner/captioning/background
+RUN mkdir -p /app/sdxl_train_captioner/captioning/mainchar
+RUN mkdir -p /app/sdxl_train_captioner/training/background
+RUN mkdir -p /app/sdxl_train_captioner/training/mainchar
 
 RUN pip install -r requirements.txt
 
 # 모델 파일 복사 (미리 포함시킬 가중치)
 COPY ./models /app/sdxl_train_captioner/models
-
-# 모델 디렉토리 확인 로그
-RUN echo "✅ Copied models:" && ls -R /app/sdxl_train_captioner/models || echo "⚠️ No models found"
 
 WORKDIR /app/sdxl_train_captioner/sd-scripts
 RUN chmod +x ./entrypoint.sh
