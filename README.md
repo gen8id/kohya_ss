@@ -23,6 +23,40 @@ C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v12.4\bin으로 복사합니�
 - 현재 사용가능한 다운로드 주소는 아래와 같습니다.
 - https://huggingface.co/stabilityai/stable-diffusion-xl-base-1.0/resolve/main/sd_xl_base_1.0.safetensors
 
+## 학습방법 1: 폴더명 규칙 사용 (자동)
+./train.sh config.json 0
+
+# 방법 2: 강제로 15번 반복
+./train.sh config.json 0 15
+
+# 방법 3: 강제로 20번 반복
+./train.sh config.json 0 20
+
+
+3가지 요소 비교
+1️⃣ 폴더 식별자 (예: 15_alice)
+목적: Kohya 학습 시스템이 이미지를 분류하고 관리하는 용도
+training/
+├── 15_alice/          ← "alice"는 내부 식별용
+│   ├── img1.jpg
+│   └── img1.txt
+└── 10_background/     ← "background"는 내부 식별용
+    ├── bg1.jpg
+    └── bg1.txt
+특징:
+
+학습 시 로그에만 표시됨
+LoRA 모델이나 trigger word와 무관
+단순히 폴더 구분용
+
+2️⃣ --output_name (예: karina)
+목적: 저장되는 LoRA 파일명
+
+3️⃣ LoRA 태그명
+- 학습에 사용되는 캡션 tag + 문장에서 가장 많이 발견되는 Unique Word가 태그명이 됩니다.
+- 일반적으로 캡션의 제일 앞에 배치하고 그 뒤에 콤마를 찍고 나머지를 서술합니다.
+
+
 
 
 이 저장소에는 Stable Diffusion용 훈련, 생성 및 유틸리티 스크립트가 포함되어 있습니다.
