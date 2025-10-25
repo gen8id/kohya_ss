@@ -20,11 +20,12 @@ COPY . /app/sdxl_train_captioner
 # 두 requirements.txt 모두 설치
 WORKDIR /app/sdxl_train_captioner
 RUN mkdir -p /app/sdxl_train_captioner/logs
+RUN mkdir -p /app/sdxl_train_captioner/models
 RUN mkdir -p /app/sdxl_train_captioner/output_models
-RUN mkdir -p /app/sdxl_train_captioner/captioning/background
-RUN mkdir -p /app/sdxl_train_captioner/captioning/mainchar
-RUN mkdir -p /app/sdxl_train_captioner/training/background
-RUN mkdir -p /app/sdxl_train_captioner/training/mainchar
+RUN mkdir -p /app/sdxl_train_captioner/dataset/captioning/background
+RUN mkdir -p /app/sdxl_train_captioner/dataset/captioning/mainchar
+RUN mkdir -p /app/sdxl_train_captioner/dataset/training/background
+RUN mkdir -p /app/sdxl_train_captioner/dataset/training/mainchar
 
 RUN pip install -r requirements.txt
 
@@ -34,13 +35,3 @@ COPY ./models /app/sdxl_train_captioner/models
 WORKDIR /app/sdxl_train_captioner/sd-scripts
 RUN chmod +x ./entrypoint.sh
 ENTRYPOINT ["bash", "entrypoint.sh"]
-
-# 엔트리포인트 복사 및 실행 권한
-#COPY entrypoint.sh /entrypoint.sh
-
-# 환경 변수 기본값
-#ENV TRAIN_DIR=/app/sdxl_train_captioner/dataset
-#ENV OUTPUT_DIR=/app/sdxl_train_captioner/output_model
-
-# 볼륨 마운트 포인트
-#VOLUME ["/app/sdxl_train_captioner/dataset", "/app/sdxl_train_captioner/output_model"]
