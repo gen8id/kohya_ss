@@ -59,6 +59,6 @@ sd-scripts/**
 venv
 venv*
 .python-version
-output_model
-output_model/
-output_model/**
+output_models
+output_models/
+output_models/**

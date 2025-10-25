@@ -1,5 +1,5 @@
 # CUDA 12.1 + PyTorch 2.3.0
-FROM pytorch/pytorch:2.3.0-cuda12.1-cudnn8-devel
+FROM pytorch/pytorch:2.4.0-cuda12.1-cudnn9-devel
 
 # 기본 작업 경로 설정
 WORKDIR /app
@@ -19,6 +19,13 @@ RUN pip install --upgrade pip setuptools wheel
 COPY . /app/sdxl_train_captioner
 # 두 requirements.txt 모두 설치
 WORKDIR /app/sdxl_train_captioner
+RUN mkdir /app/sdxl_train_captioner/logs
+RUN mkdir /app/sdxl_train_captioner/output_models
+RUN mkdir /app/sdxl_train_captioner/captioning/background
+RUN mkdir /app/sdxl_train_captioner/captioning/mainchar
+RUN mkdir /app/sdxl_train_captioner/training/background
+RUN mkdir /app/sdxl_train_captioner/training/mainchar
+
 RUN pip install -r requirements.txt
 
 # 모델 파일 복사 (미리 포함시킬 가중치)
@@ -27,7 +34,8 @@ COPY ./models /app/sdxl_train_captioner/models
 # 모델 디렉토리 확인 로그
 RUN echo "✅ Copied models:" && ls -R /app/sdxl_train_captioner/models || echo "⚠️ No models found"
 
-RUN chmod +x entrypoint.sh
+WORKDIR /app/sdxl_train_captioner/sd-scripts
+RUN chmod +x ./entrypoint.sh
 ENTRYPOINT ["bash", "entrypoint.sh"]
 
 # 엔트리포인트 복사 및 실행 권한
