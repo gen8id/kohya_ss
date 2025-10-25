@@ -44,4 +44,4 @@ services:
     working_dir: /app/sdxl_train_captioner/sd-scripts
 
     # GPU 자동 탐색, 기본 0번 GPU
-    command: ["python", "cap-watcher.py"] # "--device", "3", "--overwrite"
+#    command: ["python", "cap-watcher.py"] # "--device", "3", "--overwrite"
