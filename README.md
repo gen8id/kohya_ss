@@ -3,10 +3,12 @@ NVIDIA Studio Driver(SDR) : Windows 10/11 → 531.79 / 536.67 등 :
 https://www.nvidia.com/ko-kr/geforce/drivers/
 제일 낮은 버전이 아마 괜찮을 듯 함.
 
+## 1. 호환 버전
 CUDA 12.4 : https://developer.nvidia.com/cuda-12-4-0-download-archive
+
 CcuDNN v9.5.0 : https://developer.nvidia.com/cudnn-9-5-0-download-archive
 
-## CuDNN 설치
+## 2. CuDNN 설치
 cuDNN (예) C:\Program Files\NVIDIA\CUDNN\v9.5\bin 폴더 안에는 Cuda Major 버전에 대응되는 라이브러리들이 있습니다.
 해당폴더 하위의 파일들을 CUDA Toolkit이 설치된 경로 내의 해당 폴더에 복사합니다.
 
@@ -15,18 +17,11 @@ C:\Program Files\NVIDIA\CUDNN\v9.5\bin\12.6 아래의 모든 dll 파일을
 C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v12.4\bin으로 복사합니다. 
 
 
-4. SDXL 모델 다운로드
-SDXL 기본 해상도는 1024x1024 X이며, 다음 모델이 필요합니다:
-필수 모델:
-SDXL Base 모델 (.safetensors 또는 .ckpt)
-Hugging Face 또는
-CivitAI에서 다운로드
-
-권장: VAE 모델 (선택사항이지만 권장)
-https://huggingface.co/madebyollin/sdxl-vae-fp16-fix
-SDXL fp16 VAE GitHub: madebyollin/sdxl-vae-fp16-fix
-모델을 원하는 폴더에 저장하세요 (예: C:/models/sdxl/)
-
+## 3. SDXL 모델 다운로드
+- 도커 컨테이너가 실행될 때 models 하위에 StableDiffusion XL 1.0 모델이 다운로드 됩니다.
+- 만약에 해당 URL 지원이 종료 된 경우, 허깅페이지 또는 CIVITAI에서 다운로드 하세요.
+- 현재 사용가능한 다운로드 주소는 아래와 같습니다.
+- https://huggingface.co/stabilityai/stable-diffusion-xl-base-1.0/resolve/main/sd_xl_base_1.0.safetensors
 
 
 
@@ -240,5 +235,6 @@ masterpiece, best quality, 1boy, in business suit, standing at street, looking b
   * `--s` 생성 과정의 단계 수를 지정합니다.
 
   `( )` 및 `[ ]`와 같은 프롬프트 가중치 기능이 작동합니다.
+
 
 
