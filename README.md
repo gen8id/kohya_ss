@@ -3,12 +3,16 @@ NVIDIA Studio Driver(SDR) : Windows 10/11 → 531.79 / 536.67 등 :
 https://www.nvidia.com/ko-kr/geforce/drivers/
 제일 낮은 버전이 아마 괜찮을 듯 함.
 
-CUDA 12.3 : https://developer.nvidia.com/cuda-12-3-0-download-archive
-cuDNN v9.5.0 : https://developer.nvidia.com/cudnn-9-5-0-download-archive
+CUDA 12.4 : https://developer.nvidia.com/cuda-12-4-0-download-archive
+CcuDNN v9.5.0 : https://developer.nvidia.com/cudnn-9-5-0-download-archive
 
-cuDNN (예: C:\Program Files\NVIDIA\CUDNN\v9.5 )폴더 안에는 bin, include, lib 폴더가 있습니다.
-각 폴더의 내용을 CUDA Toolkit이 설치된 경로 내의 해당 폴더에 복사합니다.
-예시: cuDNN/bin을 C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v11.2\bin으로 복사합니다. 
+## CuDNN 설치
+cuDNN (예) C:\Program Files\NVIDIA\CUDNN\v9.5\bin 폴더 안에는 Cuda Major 버전에 대응되는 라이브러리들이 있습니다.
+해당폴더 하위의 파일들을 CUDA Toolkit이 설치된 경로 내의 해당 폴더에 복사합니다.
+
+예시: 
+C:\Program Files\NVIDIA\CUDNN\v9.5\bin\12.6 아래의 모든 dll 파일을 
+C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v12.4\bin으로 복사합니다. 
 
 
 4. SDXL 모델 다운로드
@@ -236,4 +240,5 @@ masterpiece, best quality, 1boy, in business suit, standing at street, looking b
   * `--s` 생성 과정의 단계 수를 지정합니다.
 
   `( )` 및 `[ ]`와 같은 프롬프트 가중치 기능이 작동합니다.
+
 
