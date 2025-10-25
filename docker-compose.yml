@@ -22,7 +22,7 @@ services:
     volumes:
       - ./models:/app/sdxl_train_captioner/models
       - ./dataset:/app/sdxl_train_captioner/dataset
-      - ./outputs:/app/sdxl_train_captioner/output_models
+      - ./output_models:/app/sdxl_train_captioner/output_models
       - ./logs:/app/sdxl_train_captioner/logs
 
     environment:

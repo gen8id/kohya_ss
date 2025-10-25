@@ -1,4 +1,4 @@
-# CUDA 12.1 + PyTorch 2.3.0
+# Python 3.11 + PyTorch 2.4.0 + CUDA 12.1 + CuDNN 9.5
 FROM pytorch/pytorch:2.4.0-cuda12.1-cudnn9-devel
 
 # 기본 작업 경로 설정
