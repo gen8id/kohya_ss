@@ -49,18 +49,6 @@ FLUX.1 및 SD3/SD3.5 지원은 sd3 브랜치에서 이루어집니다. 해당 �
 - 이미지 생성
 - 모델 변환 (1.x 및 2.x, Stable Diffusion ckpt/safetensors 및 Diffusers 지원)
 
-### 후원사
-
-아래 기업들의 아낌없는 후원에 깊이 감사드립니다:
-
-<a href="https://aihub.co.jp/top-en">
-  <img src="sd-scripts/images/logo_aihub.png" alt="AiHUB Inc." title="AiHUB Inc." height="100px">
-</a>
-
-### 프로젝트 후원
-
-이 프로젝트가 도움이 되셨다면 [GitHub 후원](https://github.com/sponsors/kohya-ss/)을 통해 개발을 후원해 주시기 바랍니다. 여러분의 후원에 깊이 감사드립니다!
-
 
 ## requirements.txt 파일 안내
 
@@ -248,3 +236,4 @@ masterpiece, best quality, 1boy, in business suit, standing at street, looking b
   * `--s` 생성 과정의 단계 수를 지정합니다.
 
   `( )` 및 `[ ]`와 같은 프롬프트 가중치 기능이 작동합니다.
+
