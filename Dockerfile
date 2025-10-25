@@ -22,10 +22,7 @@ WORKDIR /app/sdxl_train_captioner
 RUN mkdir -p /app/sdxl_train_captioner/logs
 RUN mkdir -p /app/sdxl_train_captioner/models
 RUN mkdir -p /app/sdxl_train_captioner/output_models
-RUN mkdir -p /app/sdxl_train_captioner/dataset/captioning/background
-RUN mkdir -p /app/sdxl_train_captioner/dataset/captioning/mainchar
-RUN mkdir -p /app/sdxl_train_captioner/dataset/training/background
-RUN mkdir -p /app/sdxl_train_captioner/dataset/training/mainchar
+RUN mkdir -p /app/sdxl_train_captioner/dataset
 
 RUN pip install -r requirements.txt
 
